@@ -4,6 +4,7 @@
 # name or the intended use of these models
 name: 'assignment1'
 version: '1.0.0'
+config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
 profile: 'assignment1'
@@ -31,6 +32,21 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   assignment1:
-    # Config indicated by + and applies to all files under models/example/
-    example:
-      +materialized: view
+    banking:
+      # Config indicated by + and applies to all files under models/example/
+      staging:
+        +materialized: view
+      intermediate:
+        +materialized: view
+      fact:
+        +materialized: table
+
+seeds:
+  assignment1:
+    interest_rate_rules:
+      +schema: staging
+      +column_types:
+        tier_id: integer
+        min_balance: decimal(18,2)
+        max_balance: decimal(18,2)
+        interest_rate: decimal(5,2)

@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: stg_customer
+    columns:
+      - name: customer_id
+        data_tests: 
+          - not_null
+          - unique
+      - name: customer_name
+      - name: has_loan
+
+  - name: stg_accounts
+    columns:
+      - name: account_id
+        data_tests: 
+          - not_null
+          - unique
+      - name: customer_id
+        data_tests:
+          - relationships:
+              to: ref('stg_customer')
+              field: customer_id
+      - name: balance
+      - name: account_type

@@ -1,0 +1,44 @@
+version: 2
+
+unit_tests:
+  - name: test_int_savings_accounts
+
+    model: int_savings_accounts
+
+    given:
+      - input: ref('stg_accounts')
+        rows:
+        # savings + positive balance, has matching customer
+          - { account_id: 'A001', customer_id: 101, balance: 10000, account_type: 'savings' }
+
+        # savings but zero balance
+          - { account_id: 'A002', customer_id: 102, balance: 0, account_type: 'savings' }
+
+        # checking account (wrong type)
+          - { account_id: 'A003', customer_id: 103, balance: 5000, account_type: 'checking' }
+
+        # savings + positive balance, but no matching customer
+          - { account_id: 'A004', customer_id: 000, balance: 20000, account_type: 'savings' }
+
+      - input: ref('stg_customer')
+        rows:
+          - { customer_id: 101, customer_name: 'Alice Smith', has_loan: 'Yes' }
+          - { customer_id: 102, customer_name: 'Bob Jones', has_loan: 'No' }
+          - { customer_id: 102, customer_name: 'Charlie Brown', has_loan: 'Yes' }
+
+    expect:
+      rows:
+        - {
+            account_id: 'A001',
+            customer_id: 101,
+            balance: 10000,
+            customer_name: 'Alice Smith',
+            has_loan: 'Yes'
+          }
+        - {
+            account_id: 'A004',
+            customer_id: 000,
+            balance: 20000,
+            customer_name: null,
+            has_loan: 'No'
+          }

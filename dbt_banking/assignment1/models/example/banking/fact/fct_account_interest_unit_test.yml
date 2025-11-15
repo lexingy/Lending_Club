@@ -1,0 +1,35 @@
+version: 2
+
+unit_tests:
+  - name: test_fct_account_interest
+    model: fct_account_interest
+    given:
+      - input: ref('int_savings_accounts')
+        rows:
+          - { customer_id: 101, account_id: 'A001', balance: 10000, has_loan: true }
+          - { customer_id: 102, account_id: 'A002', balance: 5000, has_loan: false }
+
+      - input: ref('stg_interest_rate_rules')
+        rows:
+          - { tier_id: 1, min_balance: 0,     max_balance: 9999,  interest_rate: 1.0 }
+          - { tier_id: 2, min_balance: 10000, max_balance: 19999, interest_rate: 2.0 }
+          - { tier_id: 3, min_balance: 20000, max_balance: null,  interest_rate: 3.0 }
+
+    expect:
+      rows:
+        - {
+            customer_id: 101,
+            account_id: 'A001',
+            original_balance: 10000,
+            interest_rate_applied: 2.5,
+            annual_interest_amount: 250.00,
+            new_balance: 10250.00
+          }
+        - {
+            customer_id: 102,
+            account_id: 'A002',
+            original_balance: 5000,
+            interest_rate_applied: 1.0,
+            annual_interest_amount: 50.00,
+            new_balance: 5050.00
+          }

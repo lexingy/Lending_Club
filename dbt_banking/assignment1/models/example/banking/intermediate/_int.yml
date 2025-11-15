@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: int_savings_accounts
+    description: "savings accounts only with customer info and loan flag"
+    columns:
+      - name: account_id
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customer')
+              field: customer_id
+
+      - name: balance
+        tests:
+          - not_null
+
+      - name: customer_name
+        tests:
+          - not_null
+
+      - name: has_loan
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Yes', 'No']

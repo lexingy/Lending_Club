@@ -1,0 +1,4 @@
+tier_id,min_balance,max_balance,interest_rate
+1,0,9999.99,1.0
+2,10000,19999.99,1.5
+3,20000,,2.0

@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: fct_account_interest
+    columns:
+      - name: customer_id
+        tests:
+          - not_null
+
+      - name: account_id
+        tests:
+          - not_null
+          - unique
+
+      - name: original_balance
+        tests:
+          - not_null
+
+      - name: interest_rate_applied
+        tests:
+          - not_null
+
+      - name: annual_interest_amount
+        tests:
+          - not_null
+
+      - name: new_balance
+        tests:
+          - not_null
