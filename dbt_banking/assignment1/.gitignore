@@ -4,3 +4,6 @@ dbt_packages/
 logs/
 dev.duckdb
 .DS_Store
+/logs/
+/.DS_Store
+exports/*.csv
