@@ -37,9 +37,9 @@ services:
       DUCKDB_S3_URL_STYLE: path
       DUCKDB_S3_USE_SSL: "false"
     volumes:
-      - .:/dbt_banking/   # your dbt + dagster code
+      - .:/dbt_banking/assignment1   # your dbt + dagster code
       - dagster_home:/opt/dagster    # dagster instance state
-    working_dir: /dbt_banking/
+    working_dir: /dbt_banking/assignment1
     ports:
       - "3000:3000"   # Dagster web UI
     # Start Dagster (dev = webserver + daemon in one process)
